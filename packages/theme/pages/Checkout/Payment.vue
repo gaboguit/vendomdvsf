@@ -63,7 +63,16 @@
           class="sf-property--full-width sf-property--large summary__property-total"
         />
 
-        <VsfPaymentProvider @change:payment="handlePaymentChange" />
+        <SfAlert
+          v-if="savePaymentErrorMessage"
+          :message="savePaymentErrorMessage"
+          type="warning"
+        />
+
+        <VsfPaymentProvider
+          class="summary__payment_provider"
+          @change:payment="handlePaymentChange"
+        />
 
         <SfCheckbox v-e2e="'terms'" v-model="terms" name="terms" class="summary__terms">
           <template #label>
@@ -106,7 +115,8 @@ import {
   SfPrice,
   SfProperty,
   SfAccordion,
-  SfLink
+  SfLink,
+  SfAlert
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
 import { ref, computed, useRouter } from '@nuxtjs/composition-api';
@@ -126,6 +136,7 @@ export default {
     SfProperty,
     SfAccordion,
     SfLink,
+    SfAlert,
     VsfPaymentProvider: () => import('~/components/Checkout/VsfPaymentProvider')
   },
   setup() {
@@ -135,6 +146,7 @@ export default {
 
     const isPaymentReady = ref(false);
     const savePayment = ref(null);
+    const savePaymentErrorMessage = ref(null);
     const terms = ref(false);
 
     onSSR(async () => {
@@ -147,9 +159,12 @@ export default {
     };
 
     const processOrder = async () => {
+      savePaymentErrorMessage.value = null;
+
       try {
         await savePayment.value();
       } catch (e) {
+        savePaymentErrorMessage.value = e.message;
         console.error(e);
         return;
       }
@@ -173,7 +188,8 @@ export default {
       tableHeaders: ['Description', 'Size', 'Color', 'Quantity', 'Amount'],
       cartGetters,
       processOrder,
-      handlePaymentChange
+      handlePaymentChange,
+      savePaymentErrorMessage
     };
   }
 };
@@ -228,6 +244,9 @@ export default {
   &__total {
     margin: 0 0 var(--spacer-sm) 0;
     flex: 0 0 16.875rem;
+  }
+  &__payment_provider {
+    margin: var(--spacer-base) 0 0 0;
   }
   &__action {
     @include for-desktop {

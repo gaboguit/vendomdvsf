@@ -63,6 +63,8 @@ export default {
           return 'Check';
         case 'StripeConnect::MultiVendorGateway':
           return 'VendoStripePaymentElement';
+        case 'StripeConnect::StandardGateway':
+          return 'VendoStripePaymentElement';
       }
     });
 

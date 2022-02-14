@@ -1,93 +1,117 @@
 <template>
   <div id="thank-you">
+    <SfLoader v-if="isPaymentLoading" />
     <SfCallToAction
-      v-e2e="'thank-you-banner'"
+      v-if="isPaymentError"
       class="banner"
-      title="Thank you for your order!"
-      :image="{
-        mobile: '/thankyou/bannerM.png',
-        desktop: '/thankyou/bannerD.png',
-      }"
+      title="Your payment failed."
+      description="Finalize your payment to submit your order"
+      background="#e1e3e2"
     >
-      <template #description>
-        <div class="banner__order-number">
-          <span>{{ $t('Order No.') }}</span>
-          <strong>{{ orderNumber }}</strong>
-        </div>
+      <template #button>
+        <SfButton link="/checkout/payment">Retry payment</SfButton>
       </template>
     </SfCallToAction>
-    <section class="section">
-      <div class="order">
-        <SfHeading
-          title="Your Purchase"
-          class="order__heading heading sf-heading--left"
-          :level="3"
-        />
-        <p class="order__paragraph paragraph">
-          {{ $t('Successful placed order') }}
-        </p>
-        <div class="order__contact">
-          <SfHeading
-            :level="6"
-            class="heading sf-heading--left sf-heading--no-underline"
-            title="Primary contacts for any questions"
-          ></SfHeading>
-          <div class="contact">
-            <p class="contact__name">{{ companyDetails.name }}</p>
-            <p class="contact__street">{{ companyDetails.street }}</p>
-            <p class="contact__city">{{ companyDetails.city }}</p>
-            <p class="contact__email">{{ companyDetails.email }}</p>
+    <div v-else>
+      <SfCallToAction
+        v-e2e="'thank-you-banner'"
+        class="banner"
+        title="Thank you for your order!"
+        :image="{
+          mobile: '/thankyou/bannerM.png',
+          desktop: '/thankyou/bannerD.png',
+        }"
+      >
+        <template #description>
+          <div>
+            <div class="banner__order-number">
+              <span>{{ $t('Order No.') }}</span>
+              <strong>{{ orderNumber }}</strong>
+            </div>
+            <SfAlert
+              v-if="isPaymentProcessing"
+              message="Your payment is processing."
+              type="info"
+            />
           </div>
-        </div>
-        <SfButton class="order__notifications-button button-size"
-          >{{ $t('Allow order notifications') }}</SfButton
-        >
-      </div>
-      <div class="additional-info">
-        <div>
+        </template>
+      </SfCallToAction>
+      <section class="section">
+        <div class="order">
           <SfHeading
-            title="Your Account"
-            class="heading sf-heading--left"
+            title="Your Purchase"
+            class="order__heading heading sf-heading--left"
             :level="3"
           />
-          <p class="paragraph">
-            {{ $t('Info after order') }}
+          <p class="order__paragraph paragraph">
+            {{ $t('Successful placed order') }}
           </p>
-        </div>
-        <div>
-          <SfHeading
-            title="What can we improve"
-            class="heading sf-heading--left"
-            :level="3"
-          />
-          <p class="paragraph">
-            {{ $t('Feedback') }}
-          </p>
-          <SfButton
-            class="feedback-button color-secondary sf-button--full-width button-size"
-            >{{ $t('Send my feedback') }}</SfButton
+          <div class="order__contact">
+            <SfHeading
+              :level="6"
+              class="heading sf-heading--left sf-heading--no-underline"
+              title="Primary contacts for any questions"
+            ></SfHeading>
+            <div class="contact">
+              <p class="contact__name">{{ companyDetails.name }}</p>
+              <p class="contact__street">{{ companyDetails.street }}</p>
+              <p class="contact__city">{{ companyDetails.city }}</p>
+              <p class="contact__email">{{ companyDetails.email }}</p>
+            </div>
+          </div>
+          <SfButton class="order__notifications-button button-size"
+            >{{ $t('Allow order notifications') }}</SfButton
           >
         </div>
-      </div>
-    </section>
-    <SfButton class="back-button color-secondary button-size"
-      >{{ $t('Go back to shop') }}</SfButton
-    >
+        <div class="additional-info">
+          <div>
+            <SfHeading
+              title="Your Account"
+              class="heading sf-heading--left"
+              :level="3"
+            />
+            <p class="paragraph">
+              {{ $t('Info after order') }}
+            </p>
+          </div>
+          <div>
+            <SfHeading
+              title="What can we improve"
+              class="heading sf-heading--left"
+              :level="3"
+            />
+            <p class="paragraph">
+              {{ $t('Feedback') }}
+            </p>
+            <SfButton
+              class="feedback-button color-secondary sf-button--full-width button-size"
+              >{{ $t('Send my feedback') }}</SfButton
+            >
+          </div>
+        </div>
+      </section>
+      <SfButton class="back-button color-secondary button-size"
+        >{{ $t('Go back to shop') }}</SfButton
+      >
+    </div>
   </div>
 </template>
 
 <script>
-import { SfHeading, SfButton, SfCallToAction } from '@storefront-ui/vue';
+import { SfHeading, SfButton, SfCallToAction, SfAlert, SfLoader } from '@storefront-ui/vue';
 import { onMounted } from '@vue/composition-api';
 import { ref, useRoute } from '@nuxtjs/composition-api';
 import { useVSFContext } from '@vue-storefront/core';
 import { useCart } from '@vue-storefront/spree';
+import { loadStripe } from '@stripe/stripe-js';
 
 export default {
   components: {
     SfHeading,
     SfButton,
-    SfCallToAction
+    SfCallToAction,
+    SfAlert,
+    SfLoader
   },
 
   setup(props, context) {
@@ -104,8 +128,39 @@ export default {
       email: 'hello@example.com'
     });
     const orderNumber = ref(route.value.query.order);
+    const isPaymentLoading = ref(true);
+    const isPaymentProcessing = ref(false);
+    const isPaymentError = ref(false);
 
     onMounted(async () => {
+      const {
+        publishable_key: stripePublishableKey,
+        payment_intent_client_secret: stripePaymentIntentClientSecret
+      } = route.value.query;
+
+      if (stripePaymentIntentClientSecret && stripePublishableKey) {
+        isPaymentLoading.value = true;
+
+        const stripe = await loadStripe(stripePublishableKey);
+        const { paymentIntent } = await stripe.retrievePaymentIntent(stripePaymentIntentClientSecret);
+
+        isPaymentLoading.value = false;
+
+        if (paymentIntent.status === 'succeeded') {
+          isPaymentProcessing.value = false;
+          isPaymentError.value = false;
+        } else if (paymentIntent.status === 'processing') {
+          isPaymentProcessing.value = true;
+          isPaymentError.value = false;
+        } else {
+          isPaymentProcessing.value = false;
+          isPaymentError.value = true;
+          return;
+        }
+      } else {
+        isPaymentLoading.value = false;
+      }
+
       await loadCart();
 
       if (orderNumber.value === cart.value.number) {
@@ -117,7 +172,10 @@ export default {
 
     return {
       companyDetails,
-      orderNumber
+      orderNumber,
+      isPaymentLoading,
+      isPaymentProcessing,
+      isPaymentError
     };
   }
 };

@@ -40,7 +40,7 @@ export default {
       const { error } = await stripe.value.confirmPayment({
         elements: elements.value,
         confirmParams: {
-          return_url: `${window.location.origin}/checkout/thank-you?order=${cart.value.number}`
+          return_url: `${window.location.origin}/checkout/thank-you?order=${cart.value.number}&publishable_key=${publishableKey.value}`
         }
       });
 

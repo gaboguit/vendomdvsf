@@ -38,6 +38,7 @@ import makeOrder from './api/makeOrder';
 import forgotPassword from './api/forgotPassword';
 import resetPassword from './api/resetPassword';
 import changeCurrency from './api/changeCurrency';
+import removeCartToken from './api/removeCartToken';
 
 import vendoCreatePaymentIntent from './api/vendoCreatePaymentIntent';
 
@@ -114,6 +115,7 @@ const { createApiClient } = apiClientFactory<any, any>({
     forgotPassword,
     resetPassword,
     changeCurrency,
+    removeCartToken,
     vendoCreatePaymentIntent
   },
   extensions: [tokenExtension]

@@ -57,7 +57,7 @@ const deserializeImages = (included: JsonApiDocument[], documents: JsonApiDocume
 
   return sortedImageDocuments
     .map(image => ({
-      id: parseInt(image.id, 10),
+      id: image.id,
       styles: image.attributes.styles.map(style => ({
         url: style.url,
         width: parseInt(style.width, 10),
@@ -79,7 +79,7 @@ const deserializeOptionTypes = (included, product): OptionType[] => {
   const optionTypes = extractRelationships(included, 'option_type', 'option_types', product);
 
   return optionTypes.map(optionType => ({
-    id: parseInt(optionType.id, 10),
+    id: optionType.id,
     type: optionType.type,
     name: optionType.attributes.name,
     position: optionType.attributes.position,
@@ -91,12 +91,12 @@ const deserializeOptionValues = (included, variant): OptionValue[] => {
   const optionValues = extractRelationships(included, 'option_value', 'option_values', variant);
 
   return optionValues.map(optionValue => ({
-    id: parseInt(optionValue.id, 10),
+    id: optionValue.id,
     type: optionValue.attributes.type,
     name: optionValue.attributes.name,
     position: optionValue.attributes.position,
     presentation: optionValue.attributes.presentation,
-    optionTypeId: parseInt(optionValue.relationships.option_type.data.id, 10)
+    optionTypeId: optionValue.relationships.option_type.data.id
   }));
 };
 

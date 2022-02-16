@@ -9,7 +9,7 @@ const factoryParams = {
 
   make: async (context: Context): Promise<Order> => {
     await context.$spree.api.makeOrder();
-    context.setCart({_id: 0, lineItems: []});
+    context.setCart({_id: 'empty_cart', lineItems: []});
     return undefined;
   }
 };

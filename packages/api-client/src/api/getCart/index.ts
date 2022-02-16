@@ -4,7 +4,7 @@ import { deserializeCart } from '../serializers/cart';
 import { cartParams } from '../common/cart';
 
 const emptyCart: Cart = {
-  _id: 'uuid',
+  _id: 'empty_cart',
   email: '',
   number: '',
   state: 'cart',

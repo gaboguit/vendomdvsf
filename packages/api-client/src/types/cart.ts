@@ -2,7 +2,7 @@ import { Address } from './checkout';
 
 export type LineItem = {
   id: string;
-  _variantId: number;
+  _variantId: string;
   _description: string;
   _categoriesRef: string[];
   name: string;

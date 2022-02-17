@@ -45,6 +45,7 @@ export type ApiConfig = {
   auth: AuthIntegrationContext;
   internationalization: InternationalizationIntegrationContext;
   backendUrl: string;
+  useFullImageUrls: boolean,
   spreeFeatures: {
     associateGuestCart: boolean;
     fetchPrimaryVariant: boolean;

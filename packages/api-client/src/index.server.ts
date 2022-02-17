@@ -44,6 +44,7 @@ import vendoCreatePaymentIntent from './api/vendoCreatePaymentIntent';
 
 const defaultSettings = {
   backendUrl: 'https://demo.spreecommerce.org',
+  useFullImageUrls: false,
   spreeFeatures: {
     associateGuestCart: true,
     fetchPrimaryVariant: true

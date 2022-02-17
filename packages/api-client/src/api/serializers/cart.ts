@@ -9,7 +9,7 @@ const findAttachment = (attachments: any[], id: string, type: string) => {
   return attachments.find(e => e.id === id && e.type === type);
 };
 
-const formatImageUrl = (styles: any[], backendUrl: string): string => {
+const formatImageUrl = (styles: any[], backendUrl: string, useFullImageUrls: boolean): string => {
   let coverImage = styles[0];
 
   styles.forEach(img => {
@@ -17,7 +17,7 @@ const formatImageUrl = (styles: any[], backendUrl: string): string => {
       coverImage = img;
   });
 
-  return backendUrl.concat(coverImage.url);
+  return useFullImageUrls ? coverImage.url : backendUrl.concat(coverImage.url);
 };
 
 const formatOptions = (optionsText: string) => {
@@ -38,7 +38,7 @@ const deserializeLineItem = (lineItem: any, attachments: JsonApiDocument[], conf
   const imagesData = variantImagesData.length > 0 ? variantImagesData : productImagesData;
   const image = findAttachment(attachments, imagesData[0]?.id, 'image');
 
-  const imageUrl = image ? formatImageUrl(image.attributes.styles, config.backendUrl) : '';
+  const imageUrl = image ? formatImageUrl(image.attributes.styles, config.backendUrl, config.useFullImageUrls) : '';
 
   return {
     id: parseInt(lineItem.id, 10),

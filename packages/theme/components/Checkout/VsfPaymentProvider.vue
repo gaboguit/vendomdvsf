@@ -2,6 +2,7 @@
   <div>
     <div v-for="method in paymentMethods" :key="method.type">
       <SfRadio
+        v-if="areMultiplePaymentMethodsAvailable"
         v-e2e="'payment-method'"
         :key="method.type"
         :label="method.label"
@@ -29,6 +30,7 @@ import { ref, onMounted, computed } from '@nuxtjs/composition-api';
 import { useVSFContext } from '@vue-storefront/core';
 import Stripe from '~/components/Checkout/PaymentMethod/Stripe';
 import Check from '~/components/Checkout/PaymentMethod/Check';
+import VendoStripePaymentElement from '~/components/Checkout/PaymentMethod/VendoStripePaymentElement';
 
 export default {
   name: 'VsfPaymentProvider',
@@ -37,7 +39,8 @@ export default {
     SfButton,
     SfRadio,
     Stripe,
-    Check
+    Check,
+    VendoStripePaymentElement
   },
 
   setup(props, { emit }) {
@@ -50,12 +53,18 @@ export default {
       selectedMethod.value = method;
     };
 
+    const areMultiplePaymentMethodsAvailable = computed(() => paymentMethods.length > 1);
+
     const paymentComponent = computed(() => {
       switch (selectedMethod.value) {
         case 'Spree::Gateway::StripeElementsGateway':
           return 'Stripe';
         case 'Spree::PaymentMethod::Check':
           return 'Check';
+        case 'StripeConnect::MultiVendorGateway':
+          return 'VendoStripePaymentElement';
+        case 'StripeConnect::StandardGateway':
+          return 'VendoStripePaymentElement';
       }
     });
 
@@ -66,12 +75,17 @@ export default {
     onMounted(async () => {
       try {
         paymentMethods.value = await $spree.api.getPaymentMethods();
+        if (paymentMethods.value.length > 0) {
+          const defaultPaymentMethod = paymentMethods.value[0];
+          selectedMethod.value = defaultPaymentMethod.type;
+        }
       } catch (e) {
         console.error(e);
       }
     });
 
     return {
+      areMultiplePaymentMethodsAvailable,
       paymentMethods,
       selectedMethod,
       selectMethod,

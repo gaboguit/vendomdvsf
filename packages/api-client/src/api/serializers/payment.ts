@@ -3,5 +3,6 @@ export const deserializePaymentMethods = (method) => ({
   type: method.attributes.type,
   label: method.attributes.name,
   description: method.attributes.description,
-  preferences: method.attributes.preferences
+  preferences: method.attributes.preferences,
+  publishableKey: method.attributes.publishable_key
 });

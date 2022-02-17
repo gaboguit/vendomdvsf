@@ -38,6 +38,9 @@ import makeOrder from './api/makeOrder';
 import forgotPassword from './api/forgotPassword';
 import resetPassword from './api/resetPassword';
 import changeCurrency from './api/changeCurrency';
+import removeCartToken from './api/removeCartToken';
+
+import vendoCreatePaymentIntent from './api/vendoCreatePaymentIntent';
 
 const defaultSettings = {
   backendUrl: 'https://demo.spreecommerce.org',
@@ -111,7 +114,9 @@ const { createApiClient } = apiClientFactory<any, any>({
     makeOrder,
     forgotPassword,
     resetPassword,
-    changeCurrency
+    changeCurrency,
+    removeCartToken,
+    vendoCreatePaymentIntent
   },
   extensions: [tokenExtension]
 });

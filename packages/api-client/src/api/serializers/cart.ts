@@ -41,8 +41,8 @@ const deserializeLineItem = (lineItem: any, attachments: JsonApiDocument[], conf
   const imageUrl = image ? formatImageUrl(image.attributes.styles, config.backendUrl) : '';
 
   return {
-    id: parseInt(lineItem.id, 10),
-    _variantId: parseInt(variant.id, 10),
+    id: lineItem.id,
+    _variantId: variant.id,
     _description: '',
     _categoriesRef: [],
     name: lineItem.attributes.name,
@@ -77,7 +77,7 @@ const findAddress = (data, included) => {
 };
 
 export const deserializeCart = (apiCart: OrderAttr, included: any[], config: any): Cart => ({
-  _id: parseInt(apiCart.id, 10),
+  _id: apiCart.id,
   email: apiCart.attributes.email,
   number: apiCart.attributes.number,
   state: apiCart.attributes.state,

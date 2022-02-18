@@ -1,8 +1,8 @@
 import { Address } from './checkout';
 
 export type LineItem = {
-  id: number;
-  _variantId: number;
+  id: string;
+  _variantId: string;
   _description: string;
   _categoriesRef: string[];
   name: string;
@@ -21,7 +21,7 @@ export type LineItem = {
 };
 
 export type Cart = {
-  _id: number;
+  _id: string;
   email: string;
   number: string;
   state: string;

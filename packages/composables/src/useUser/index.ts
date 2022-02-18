@@ -24,7 +24,7 @@ const params: UseUserFactoryParams<User, any, any> = {
 
   logOut: async (context: Context) => {
     await context.$spree.api.logOut();
-    context.setCart({_id: 0, lineItems: []});
+    context.setCart({_id: 'empty_cart', lineItems: []});
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

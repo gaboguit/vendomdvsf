@@ -19,9 +19,9 @@ const getOptionTypeFiltersFromURL = (): SearchParamsOptionTypeFilter[] => {
       const optionTypeName = key.substring(2);
 
       if (Array.isArray(value)) {
-        return [...filters, ...value.map(e => ({ optionTypeName, optionValueId: parseInt(e, 10) }))];
+        return [...filters, ...value.map(e => ({ optionTypeName, optionValueId: e }))];
       } else {
-        return [...filters, { optionTypeName, optionValueId: parseInt(value, 10) }];
+        return [...filters, { optionTypeName, optionValueId: value }];
       }
     }, []);
 };

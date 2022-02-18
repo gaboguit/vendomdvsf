@@ -165,7 +165,7 @@ export default {
 
       if (orderNumber.value === cart.value.number) {
         // When Stripe's callback redirects us directly to thank you page, we should clear cart here
-        setCart({ _id: 0, lineItems: [] });
+        setCart({ _id: 'empty_cart', lineItems: [] });
         $spree.api.removeCartToken();
       }
     });

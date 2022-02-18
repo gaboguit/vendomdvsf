@@ -10,6 +10,8 @@ const defaultFeatures = {
     fetchPrimaryVariant: true
   },
   vendo: {
+    associateGuestCart: true,
+    fetchPrimaryVariant: true,
     useFullImageUrls: true
   }
 
@@ -21,8 +23,7 @@ module.exports = {
       location: '@vue-storefront/spree-api/server',
       configuration: {
         backendUrl: process.env.BACKEND_URL,
-        spreeFeatures: defaultFeatures.spree43,
-        ...defaultFeatures.vendo
+        spreeFeatures: defaultFeatures.vendo
       }
     }
   }

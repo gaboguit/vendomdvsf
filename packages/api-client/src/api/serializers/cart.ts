@@ -38,7 +38,7 @@ const deserializeLineItem = (lineItem: any, attachments: JsonApiDocument[], conf
   const imagesData = variantImagesData.length > 0 ? variantImagesData : productImagesData;
   const image = findAttachment(attachments, imagesData[0]?.id, 'image');
 
-  const imageUrl = image ? formatImageUrl(image.attributes.styles, config.backendUrl, config.useFullImageUrls) : '';
+  const imageUrl = image ? formatImageUrl(image.attributes.styles, config.backendUrl, config.spreeFeatures.useFullImageUrls) : '';
 
   return {
     id: lineItem.id,

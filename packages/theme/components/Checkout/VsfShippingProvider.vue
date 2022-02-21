@@ -1,9 +1,14 @@
 <template>
   <div>
+    <SfHeading v-if="(shipments !== null && shipments.length > 1)"
+      :title="`The order will be realized by ${shipments.length} vendors`"
+      :level="3"
+      class="sf-heading--no-underline sf-heading--left"
+    />
     <ShippingRatePicker
       v-for="(shipment, index) in shipments"
       :key="shipment.id"
-      :name="`Shipment #${index}`"
+      :name="`Shipment #${index+1}`"
       :shipment="shipment"
       class="vsf-shipping-provider__rate-picker"
       @change="shippingRateId => selectShippingRate(shipment.id, shippingRateId)"
@@ -21,7 +26,7 @@
 </template>
 
 <script>
-import { SfButton } from '@storefront-ui/vue';
+import { SfButton, SfHeading } from '@storefront-ui/vue';
 import { computed, ref, onMounted } from '@nuxtjs/composition-api';
 import { Logger, useVSFContext } from '@vue-storefront/core';
 import { useCart, useShippingProvider } from '@vue-storefront/spree';
@@ -29,8 +34,8 @@ import ShippingRatePicker from '~/components/Checkout/ShippingRatePicker.vue';
 
 export default {
   name: 'VsfShippingProvider',
-
   components: {
+    SfHeading,
     SfButton,
     ShippingRatePicker
   },

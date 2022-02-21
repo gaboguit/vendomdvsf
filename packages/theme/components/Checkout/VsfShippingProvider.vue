@@ -1,8 +1,8 @@
 <template>
   <div>
-    <SfHeading
-      :title="`The order will be realized by ${shipments.length} vendors.`"
-      :level="2"
+    <SfHeading v-if="(shipments !== null && shipments.length > 1)"
+      :title="`The order will be realized by ${shipments.length} vendors`"
+      :level="3"
       class="sf-heading--no-underline sf-heading--left"
     />
     <ShippingRatePicker
@@ -75,7 +75,6 @@ export default {
         Logger.error('VsfShippingProvider', e);
       }
     };
-    const numberOfVendors = 'The order is gonna be realized by x vendors';
 
     return {
       shipments,

@@ -23,7 +23,7 @@ module.exports = {
       location: '@vue-storefront/spree-api/server',
       configuration: {
         backendUrl: process.env.BACKEND_URL,
-        spreeFeatures: defaultFeatures.vendo
+        spreeFeatures: defaultFeatures.spree43
       }
     }
   }

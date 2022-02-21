@@ -48,6 +48,7 @@ export type ApiConfig = {
   spreeFeatures: {
     associateGuestCart: boolean;
     fetchPrimaryVariant: boolean;
+    useFullImageUrls: boolean;
   }
 }
 

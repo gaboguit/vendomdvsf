@@ -8,6 +8,11 @@ const defaultFeatures = {
   spree43: {
     associateGuestCart: true,
     fetchPrimaryVariant: true
+  },
+  vendo: {
+    associateGuestCart: true,
+    fetchPrimaryVariant: true,
+    useFullImageUrls: true
   }
 };
 

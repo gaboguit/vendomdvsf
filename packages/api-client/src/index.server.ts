@@ -46,7 +46,8 @@ const defaultSettings = {
   backendUrl: 'https://demo.spreecommerce.org',
   spreeFeatures: {
     associateGuestCart: true,
-    fetchPrimaryVariant: true
+    fetchPrimaryVariant: true,
+    useFullImageUrls: false
   }
 };
 

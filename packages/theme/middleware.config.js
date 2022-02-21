@@ -14,7 +14,6 @@ const defaultFeatures = {
     fetchPrimaryVariant: true,
     useFullImageUrls: true
   }
-
 };
 
 module.exports = {

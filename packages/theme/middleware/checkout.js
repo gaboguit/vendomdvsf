@@ -11,7 +11,7 @@ export default async ({ app, $vsf }) => {
 
   switch (currentPath) {
     case 'shipping':
-      if (cartEmpty(cart)){
+      if (cartEmpty(cart)) {
         app.context.redirect('/');
       }
       break;

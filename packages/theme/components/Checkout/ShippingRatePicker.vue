@@ -5,6 +5,20 @@
       :title="name"
       class="shipping-rate-picker__name sf-heading--left sf-heading--no-underline title"
     />
+    <SfTable class="shipping-table-spacer">
+      <SfTableHeading>
+        <SfTableHeader>Quantity</SfTableHeader>
+        <SfTableHeader>Name</SfTableHeader>
+        <SfTableHeader>Total</SfTableHeader>
+      </SfTableHeading>
+      <SfTableRow
+        v-for="item in shippingItems"
+        :key="item.id">
+        <SfTableData>{{item.quantity}}</SfTableData>
+        <SfTableData>{{item.name}}</SfTableData>
+        <SfTableData>{{item.total}}</SfTableData>
+      </SfTableRow>
+    </SfTable>
     <SfRadio
       v-e2e="'shipping-method'"
       v-for="rate in shippingRates"
@@ -26,7 +40,7 @@
 </template>
 
 <script>
-import { SfHeading, SfRadio, SfAlert } from '@storefront-ui/vue';
+import { SfHeading, SfRadio, SfAlert, SfTable } from '@storefront-ui/vue';
 import { checkoutGetters } from '@vue-storefront/spree';
 
 export default {
@@ -35,7 +49,8 @@ export default {
   components: {
     SfHeading,
     SfRadio,
-    SfAlert
+    SfAlert,
+    SfTable
   },
 
   props: {
@@ -62,6 +77,9 @@ export default {
     },
     areShippingRatesAvailable() {
       return this.shippingRates.length > 0;
+    },
+    shippingItems() {
+      return this.shipment?.lineItems;
     }
   },
 
@@ -77,5 +95,8 @@ export default {
 <style lang="scss" scoped>
 .shipping-rate-picker__name {
   margin-bottom: var(--spacer-sm);
+}
+.shipping-table-spacer {
+  margin-bottom: var(--spacer-xl);
 }
 </style>

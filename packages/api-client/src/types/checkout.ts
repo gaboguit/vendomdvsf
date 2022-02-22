@@ -26,5 +26,14 @@ export type ShippingRate = {
 
 export type Shipment = {
   id: string;
+  stockLocationName: string,
+  lineItems: any[],
   availableShippingRates: ShippingRate[];
+}
+
+export type ShipmentLineItem = {
+  id: string;
+  name: string;
+  quantity: number;
+  total: number;
 }

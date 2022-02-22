@@ -8,7 +8,7 @@
     <ShippingRatePicker
       v-for="(shipment, index) in shipments"
       :key="shipment.id"
-      :name="`Shipment #${index+1}`"
+      :name="`Shipment #${index+1} from ${shipment.stockLocationName}`"
       :shipment="shipment"
       class="vsf-shipping-provider__rate-picker"
       @change="shippingRateId => selectShippingRate(shipment.id, shippingRateId)"

@@ -24,7 +24,17 @@ export type ShippingRate = {
   cost: string;
 };
 
+export type ShipmentLineItem = {
+  id: string;
+  name: string;
+  quantity: number;
+  total: number;
+}
+
 export type Shipment = {
   id: string;
+  stockLocationName: string,
+  lineItems: ShipmentLineItem[],
   availableShippingRates: ShippingRate[];
 }
+

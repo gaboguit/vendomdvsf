@@ -7,16 +7,16 @@
     />
     <SfTable class="shipping-table-spacer">
       <SfTableHeading>
-        <SfTableHeader>Quantity</SfTableHeader>
         <SfTableHeader>Name</SfTableHeader>
+        <SfTableHeader>Quantity</SfTableHeader>
         <SfTableHeader>Total</SfTableHeader>
       </SfTableHeading>
       <SfTableRow
         v-for="item in shippingItems"
         :key="item.id">
-        <SfTableData>{{item.quantity}}</SfTableData>
-        <SfTableData>{{item.name}}</SfTableData>
-        <SfTableData>{{item.total}}</SfTableData>
+        <SfTableData>{{ item.name }}</SfTableData>
+        <SfTableData>{{ item.quantity }}</SfTableData>
+        <SfTableData>{{ $n(item.total, 'currency') }}</SfTableData>
       </SfTableRow>
     </SfTable>
     <SfRadio
@@ -41,7 +41,7 @@
 
 <script>
 import { SfHeading, SfRadio, SfAlert, SfTable } from '@storefront-ui/vue';
-import { checkoutGetters } from '@vue-storefront/spree';
+import { checkoutGetters, cartGetters } from '@vue-storefront/spree';
 
 export default {
   name: 'ShippingRatePicker',
@@ -67,7 +67,8 @@ export default {
   data() {
     return {
       selectedRateId: null,
-      checkoutGetters
+      checkoutGetters,
+      cartGetters
     };
   },
 

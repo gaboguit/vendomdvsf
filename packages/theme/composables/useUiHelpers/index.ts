@@ -48,11 +48,12 @@ const useUiHelpers = () => {
   const instance = getInstance();
   const { query, path } = instance.$router.history.current;
 
-  const getFacetsFromURL = (): SearchParams => {
-    const categorySlug = path.substring(3);
-
+  const getFacetsFromURL = (isVendor = false): SearchParams => {
+    const categorySlug = isVendor ? path.substring(path.indexOf('/', 9) + 1) : path.substring(3);
+    const vendorSlug = isVendor ? path.substring(path.indexOf('/', 2) + 1, path.indexOf('/', 9) !== -1 ? path.indexOf('/', 9) : undefined) : null;
     return {
       categorySlug,
+      vendorSlug,
       selectedOptionTypeFilters: getOptionTypeFiltersFromURL(),
       selectedProductPropertyFilters: getProductPropertyFiltersFromURL(),
       priceFilter: Array.isArray(query.price) ? query.price[0] : query.price,

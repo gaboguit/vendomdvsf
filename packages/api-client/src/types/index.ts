@@ -7,6 +7,7 @@ export * from './checkout';
 export * from './category';
 export * from './country';
 export * from './account';
+export * from './vendor';
 
 export type Wishlist = Record<string, unknown>;
 
@@ -69,6 +70,7 @@ export type GetProductsPropertyFilter = {
 
 export type GetProductsParams = {
   categoryId: string;
+  vendorId: string;
   term: string;
 
   optionTypeFilters:GetProductsOptionTypeFilter[],

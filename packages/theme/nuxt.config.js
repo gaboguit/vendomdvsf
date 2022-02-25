@@ -179,6 +179,13 @@ export default {
       } else {
         return { x: 0, y: 0 };
       }
+    },
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'Vendor',
+        path: '/vendor/:slug_1/:slug2?/:slug3?/:slug4?',
+        component: resolve(__dirname, 'pages/Vendor.vue')
+      });
     }
   },
   publicRuntimeConfig: {

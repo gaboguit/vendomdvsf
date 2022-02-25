@@ -5,23 +5,23 @@ import { deserializeSearchMetadata } from '../serializers/search';
 export default async function getProducts({ client, config }: ApiContext, params: GetProductsParams): Promise<ProductSearchResult> {
   try {
     const currency = await config.internationalization.getCurrency();
-    const { categoryId, term, optionTypeFilters, productPropertyFilters, priceFilter, page, itemsPerPage, sort } = params;
+    const { categoryId, vendorId, term, optionTypeFilters, productPropertyFilters, priceFilter, page, itemsPerPage, sort } = params;
     let include;
 
     if (config.spreeFeatures.fetchPrimaryVariant) {
-      include = 'primary_variant,default_variant,variants.option_values,option_types,taxons,images';
+      include = 'primary_variant,default_variant,variants.option_values,option_types,taxons,vendor,images';
     } else {
-      include = 'default_variant,variants.option_values,option_types,taxons,images';
+      include = 'default_variant,variants.option_values,option_types,taxons,vendor,images';
     }
 
     const optionValueIds = optionTypeFilters?.map(filter => filter.optionValueId);
     const properties = productPropertyFilters?.reduce((result, filter) => ({ ...result, [filter.productPropertyName]: filter.productPropertyValue }), {});
-
     const result = await client.products.list(
       undefined,
       {
         filter: {
           taxons: categoryId,
+          vendor_ids: vendorId,
           option_value_ids: optionValueIds?.join(','),
           // TODO update type definition in Spree Storefront SDK
           properties: properties as any,
@@ -29,7 +29,7 @@ export default async function getProducts({ client, config }: ApiContext, params
           name: term
         },
         fields: {
-          product: 'name,slug,sku,description,primary_variant,default_variant,variants,option_types,taxons',
+          product: 'name,slug,sku,description,primary_variant,default_variant,variants,option_types,taxons,vendor',
           variant: 'sku,price,display_price,in_stock,product,images,option_values,is_master'
         },
         include,

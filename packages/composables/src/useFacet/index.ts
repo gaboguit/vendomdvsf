@@ -7,9 +7,10 @@ const factoryParams = {
   search: async (context: Context, params: FacetSearchResult<SearchData>): Promise<SearchData> => {
     const searchParams = params.input as SearchParams;
     const categories = await context.$spree.api.getCategory({ categorySlug: searchParams.categorySlug });
-
+    const vendor = searchParams.vendorSlug !== null ? await context.$spree.api.getVendor({ vendorSlug: searchParams.vendorSlug }) : null;
     const getProductsParams: GetProductsParams = {
       categoryId: categories.current?.id,
+      vendorId: vendor?.currentVendor?.id,
       term: searchParams.term,
       optionTypeFilters: searchParams.selectedOptionTypeFilters,
       productPropertyFilters: searchParams.selectedProductPropertyFilters,
@@ -19,7 +20,6 @@ const factoryParams = {
       sort: searchParams.sort
     };
     const productsResponse = await context.$spree.api.getProducts(getProductsParams);
-
     const { data: products, meta: productsMeta } = productsResponse;
 
     const priceFacet = buildPriceFacet(searchParams.priceFilter);
@@ -27,6 +27,7 @@ const factoryParams = {
 
     return {
       categories,
+      vendor,
       products,
       productsMeta,
       facets,

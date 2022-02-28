@@ -13,6 +13,7 @@ import {
   getCategoryTree as buildCategoryTree,
   getCategoryBreadcrumbs as buildBreadcrumbs
 } from './categoryGetters';
+import {Vendor} from '@vue-storefront/spree-api/server/types/vendor';
 
 const getAll = (searchData: FacetSearchResult<SearchData>): AgnosticFacet[] => {
   return searchData.data ? searchData.data.facets.flatMap(facet => facet.options) : [];
@@ -46,6 +47,10 @@ const getProducts = (searchData: FacetSearchResult<SearchData>): ProductVariant[
   return (searchData && searchData.data) ? searchData.data.products : [];
 };
 
+const getVendor = (searchData: FacetSearchResult<SearchData>): Vendor => {
+  return (searchData && searchData.data) ? searchData.data.vendor : null;
+};
+
 const getPagination = (searchData: FacetSearchResult<SearchData>): AgnosticPagination => searchData.data ? ({
   currentPage: searchData.input.page,
   totalPages: searchData.data.productsMeta.totalPages,
@@ -63,6 +68,7 @@ const facetGetters: FacetsGetters<any, any> = {
   getGrouped,
   getAll,
   getProducts,
+  getVendor,
   getCategoryTree,
   getBreadcrumbs,
   getPagination

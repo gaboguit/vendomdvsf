@@ -1,15 +1,24 @@
 <template>
   <div id="category">
-    <SfBreadcrumbs
-      class="breadcrumbs desktop-only"
-      :breadcrumbs="breadcrumbs"
-    />
+    <div class="row">
+      <div class="column sf--column" style="height:200px">
+        <img :src="vendor.currentVendor.coverPhotoUrl" style="width: 100%; height: 100%">
+      </div>
+      <div class="column sf--column" style="height:200px">
+        <SfHeading
+                   :title="vendor.currentVendor.name"
+                   :level="1"
+                   class="sf-heading--no-underline sf-heading--left"
+        />
+        <p v-text="vendor.currentVendor.aboutUs"></p>
+      </div>
+    </div>
     <div class="navbar section">
       <div class="navbar__aside desktop-only">
         <LazyHydrate never>
           <SfHeading
             :level="3"
-            :title="'Vendors'"
+            :title="'Categories'"
             class="navbar__title" />
         </LazyHydrate>
       </div>
@@ -41,7 +50,7 @@
                       >
                         <template #label>
                           <nuxt-link
-                            :to="localePath(th.getCatLink(cat))"
+                            :to="localePath(th.getCatLink(cat, vendor.currentVendor.slug))"
                             :class="cat.isCurrent ? 'sidebar--cat-selected' : ''"
                           >
                             All
@@ -60,7 +69,7 @@
                       >
                         <template #label="{ label }">
                           <nuxt-link
-                            :to="localePath(th.getCatLink(subCat))"
+                            :to="localePath(th.getCatLink(subCat, vendor.currentVendor.slug))"
                             :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''"
                           >
                             {{ label }}
@@ -226,6 +235,7 @@ export default {
     const { result, search, loading, error } = useFacet();
     const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist } = useWishlist();
     const products = computed(() => facetGetters.getProducts(result.value));
+    const vendor = computed(() => facetGetters.getVendor(result.value));
     const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
     const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
     const pagination = computed(() => facetGetters.getPagination(result.value));
@@ -244,11 +254,11 @@ export default {
       await search(th.getFacetsFromURL(true));
       if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
     });
-
     return {
       ...uiState,
       th,
       products,
+      vendor,
       categoryTree,
       loading,
       productGetters,
@@ -334,6 +344,17 @@ export default {
 }
 .main {
   display: flex;
+}
+.sf--column {
+  width: 50%;
+  float: left;
+  box-sizing: border-box;
+  padding: var(--spacer-sm);
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 .list {
   --menu-item-font-size: var(--font-size--sm);

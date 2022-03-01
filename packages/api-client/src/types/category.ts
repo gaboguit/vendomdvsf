@@ -13,4 +13,5 @@ export type CategorySearchResult = {
 
 export type GetCategoryParams = {
   categorySlug: string;
+  vendorId: string;
 };

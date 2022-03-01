@@ -1,4 +1,4 @@
-import type { VendorSearchResult, CategorySearchResult, LineItem, ProductVariant, Order, Country, State } from '@vue-storefront/spree-api';
+import type { VendorSearchResult, CategorySearchResult, LineItem, ProductVariant, Order, Country, State, Vendor } from '@vue-storefront/spree-api';
 import type { AgnosticGroupedFacet, ComputedProperty } from '@vue-storefront/core';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';
@@ -23,7 +23,7 @@ export type User = {
   email?: string;
 };
 
-export { Cart, Order, LineItem, ProductVariant, Category } from '@vue-storefront/spree-api';
+export { Cart, Order, LineItem, ProductVariant, Category, Vendor } from '@vue-storefront/spree-api';
 
 export type UserAddress = Record<string, unknown>;
 

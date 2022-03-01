@@ -8,12 +8,11 @@ import type {
   AgnosticFacet,
   FacetSearchResult
 } from '@vue-storefront/core';
-import type { ProductVariant, SearchData } from '../types';
+import type { ProductVariant, SearchData, Vendor } from '../types';
 import {
   getCategoryTree as buildCategoryTree,
   getCategoryBreadcrumbs as buildBreadcrumbs
 } from './categoryGetters';
-import {Vendor} from '@vue-storefront/spree-api/server/types/vendor';
 
 const getAll = (searchData: FacetSearchResult<SearchData>): AgnosticFacet[] => {
   return searchData.data ? searchData.data.facets.flatMap(facet => facet.options) : [];

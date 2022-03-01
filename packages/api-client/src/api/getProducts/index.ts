@@ -9,9 +9,14 @@ export default async function getProducts({ client, config }: ApiContext, params
     let include;
 
     if (config.spreeFeatures.fetchPrimaryVariant) {
-      include = 'primary_variant,default_variant,variants.option_values,option_types,taxons,vendor,images';
+      include = 'primary_variant,default_variant,variants.option_values,option_types,taxons,images';
     } else {
-      include = 'default_variant,variants.option_values,option_types,taxons,vendor,images';
+      include = 'default_variant,variants.option_values,option_types,taxons,images';
+    }
+    let productFields = 'name,slug,sku,description,primary_variant,default_variant,variants,option_types,taxons';
+    if (config.spreeFeatures.vendoMarketplace) {
+      include += ',vendor';
+      productFields += ',vendor';
     }
 
     const optionValueIds = optionTypeFilters?.map(filter => filter.optionValueId);
@@ -29,7 +34,7 @@ export default async function getProducts({ client, config }: ApiContext, params
           name: term
         },
         fields: {
-          product: 'name,slug,sku,description,primary_variant,default_variant,variants,option_types,taxons,vendor',
+          product: productFields,
           variant: 'sku,price,display_price,in_stock,product,images,option_values,is_master'
         },
         include,

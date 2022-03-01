@@ -48,7 +48,8 @@ const defaultSettings = {
   spreeFeatures: {
     associateGuestCart: true,
     fetchPrimaryVariant: true,
-    useFullImageUrls: false
+    useFullImageUrls: false,
+    vendoMarketplace: false
   }
 };
 

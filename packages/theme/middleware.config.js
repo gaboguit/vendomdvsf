@@ -12,7 +12,8 @@ const defaultFeatures = {
   vendo: {
     associateGuestCart: true,
     fetchPrimaryVariant: true,
-    useFullImageUrls: true
+    useFullImageUrls: true,
+    vendoMarketplace: true
   }
 };
 

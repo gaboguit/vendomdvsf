@@ -50,6 +50,7 @@ export type ApiConfig = {
     associateGuestCart: boolean;
     fetchPrimaryVariant: boolean;
     useFullImageUrls: boolean;
+    vendoMarketplace: boolean;
   }
 }
 

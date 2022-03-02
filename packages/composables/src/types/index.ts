@@ -1,4 +1,4 @@
-import type { VendorSearchResult, CategorySearchResult, LineItem, ProductVariant, Order, Country, State, Vendor } from '@vue-storefront/spree-api';
+import type { VendorSearchResult, CategorySearchResult, LineItem, ProductVariant, Order, Country, State } from '@vue-storefront/spree-api';
 import type { AgnosticGroupedFacet, ComputedProperty } from '@vue-storefront/core';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';

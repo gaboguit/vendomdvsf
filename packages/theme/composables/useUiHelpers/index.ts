@@ -49,8 +49,16 @@ const useUiHelpers = () => {
   const { query, path } = instance.$router.history.current;
 
   const getFacetsFromURL = (isVendor = false): SearchParams => {
-    const categorySlug = isVendor ? path.substring(path.indexOf('/', 9) + 1) : path.substring(3);
-    const vendorSlug = isVendor ? path.substring(path.indexOf('/', 2) + 1, path.indexOf('/', 9) !== -1 ? path.indexOf('/', 9) : undefined) : null;
+    let categorySlug;
+    let vendorSlug;
+    const slugs = path.split('/');
+    if (isVendor) {
+      categorySlug = slugs.slice(3).join('/');
+      vendorSlug = slugs[2];
+    } else {
+      categorySlug = slugs.slice(2).join('/');
+      vendorSlug = null;
+    }
     return {
       categorySlug,
       vendorSlug,

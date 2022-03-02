@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import theme from './themeConfig';
+import middleware from './middleware.config';
 
 export default {
   ssr: true,
@@ -181,10 +182,13 @@ export default {
       }
     },
     extendRoutes(routes, resolve) {
-      routes.push({
-        path: '/vendor/:slug_1/:slug2?/:slug3?/:slug4?',
-        component: resolve(__dirname, 'pages/Vendor.vue')
-      });
+      const vendoMarketplace = middleware.integrations.spree.configuration.spreeFeatures.vendoMarketplace;
+      if (vendoMarketplace) {
+        routes.push({
+          path: '/vendor/:slug1/:slug2?/:slug3?/:slug4?',
+          component: resolve(__dirname, 'pages/Vendor.vue')
+        });
+      }
     }
   },
   publicRuntimeConfig: {

@@ -1,4 +1,5 @@
 import { AgnosticBreadcrumb, AgnosticGroupedFacet } from '@vue-storefront/core';
+import {Vendor} from './vendor';
 
 export type OptionValue = {
   id: string;
@@ -53,6 +54,7 @@ export type ProductVariant = {
     original: number;
   }
   displayPrice: string;
+  vendor: Vendor;
 };
 
 export type ProductSearchMetadata = {

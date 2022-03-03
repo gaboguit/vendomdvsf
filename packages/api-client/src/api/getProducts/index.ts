@@ -50,7 +50,7 @@ export default async function getProducts({ client, config }: ApiContext, params
       const productsData = addHostToProductImages(data, config);
 
       return {
-        data: deserializeLimitedVariants(productsData),
+        data: deserializeLimitedVariants(productsData, config.spreeFeatures.vendoMarketplace),
         meta: deserializeSearchMetadata(data.meta, optionTypeFilters, productPropertyFilters)
       };
     } else {

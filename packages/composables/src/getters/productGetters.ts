@@ -4,7 +4,7 @@ import {
   AgnosticPrice,
   ProductGetters
 } from '@vue-storefront/core';
-import { ProductVariant, Image } from '@vue-storefront/spree-api/src/types';
+import { ProductVariant, Image, Vendor } from '@vue-storefront/spree-api/src/types';
 
 import _ from 'lodash';
 
@@ -153,6 +153,10 @@ export const getProductBreadcrumbs = (product: ProductVariant) => product ? prod
 
 export const getProductInStock = (product: ProductVariant): boolean => product?.inStock || false;
 
+const getVendorLink = (vendor: Vendor): string => {
+  return `/vendor/${vendor.slug}`;
+};
+
 const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
@@ -170,7 +174,8 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getOptionTypeNames: getProductOptionTypeNames,
   getProperties: getProductProperties,
   getBreadcrumbs: getProductBreadcrumbs,
-  getInStock: getProductInStock
+  getInStock: getProductInStock,
+  getVendorLink: getVendorLink
 };
 
 export default productGetters;

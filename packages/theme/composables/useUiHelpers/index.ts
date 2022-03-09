@@ -52,8 +52,6 @@ const useUiHelpers = () => {
     let categorySlug;
     let vendorSlug;
     const slugs = path.split('/');
-    console.log('Query vendor');
-    console.log(query.vendor);
     if (isVendorPage) {
       categorySlug = slugs.slice(3).join('/');
       vendorSlug = slugs[2];
@@ -61,8 +59,6 @@ const useUiHelpers = () => {
       categorySlug = slugs.slice(2).join('/');
       vendorSlug = query.vendor != null && query.vendor.length > 0 ? query.vendor : null;
     }
-    console.log('vendorSlug');
-    console.log(vendorSlug);
     return {
       categorySlug,
       vendorSlug,

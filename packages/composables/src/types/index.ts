@@ -67,7 +67,8 @@ export type SearchParamsProductPropertyFilter = {
 
 export type SearchParams = {
   categorySlug?: string;
-  vendorSlug?: string;
+  vendorSlug?: any;
+  isVendorPage?: boolean;
   term?: string;
   selectedOptionTypeFilters: SearchParamsOptionTypeFilter[];
   selectedProductPropertyFilters: SearchParamsProductPropertyFilter[];

@@ -8,9 +8,9 @@ export type Vendor = {
 };
 
 export type GetVendorParams = {
-    vendorSlug: string;
+    vendorSlug: any;
 };
 
 export type VendorSearchResult = {
-    currentVendor: Vendor
+    currentVendor: Vendor;
 }

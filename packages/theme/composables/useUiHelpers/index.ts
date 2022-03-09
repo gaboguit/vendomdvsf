@@ -48,20 +48,25 @@ const useUiHelpers = () => {
   const instance = getInstance();
   const { query, path } = instance.$router.history.current;
 
-  const getFacetsFromURL = (isVendor = false): SearchParams => {
+  const getFacetsFromURL = (isVendorPage = false): SearchParams => {
     let categorySlug;
     let vendorSlug;
     const slugs = path.split('/');
-    if (isVendor) {
+    console.log('Query vendor');
+    console.log(query.vendor);
+    if (isVendorPage) {
       categorySlug = slugs.slice(3).join('/');
       vendorSlug = slugs[2];
     } else {
       categorySlug = slugs.slice(2).join('/');
-      vendorSlug = null;
+      vendorSlug = query.vendor != null && query.vendor.length > 0 ? query.vendor : null;
     }
+    console.log('vendorSlug');
+    console.log(vendorSlug);
     return {
       categorySlug,
       vendorSlug,
+      isVendorPage,
       selectedOptionTypeFilters: getOptionTypeFiltersFromURL(),
       selectedProductPropertyFilters: getProductPropertyFiltersFromURL(),
       priceFilter: Array.isArray(query.price) ? query.price[0] : query.price,

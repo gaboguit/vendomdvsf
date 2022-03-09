@@ -1,4 +1,5 @@
 import { ApiContext, GetVendorParams, VendorSearchResult } from '../../types';
+import { deserializeVendor } from '../serializers/vendor';
 import axios from 'axios';
 
 export default async function getVendor({ config }: ApiContext, { vendorSlug }: GetVendorParams): Promise<VendorSearchResult> {
@@ -15,15 +16,4 @@ export default async function getVendor({ config }: ApiContext, { vendorSlug }: 
     console.log(e);
     throw e;
   }
-}
-
-function deserializeVendor(responseData) {
-  return {
-    id: responseData.id,
-    name: responseData.attributes.name,
-    slug: responseData.attributes.slug,
-    aboutUs: responseData.attributes.about_us,
-    logoUrl: responseData.attributes.logo_url,
-    coverPhotoUrl: responseData.attributes.cover_photo_url
-  };
 }

@@ -2,15 +2,25 @@ import { GetProductsParams } from '@vue-storefront/spree-api';
 import { Context, useFacetFactory, FacetSearchResult } from '@vue-storefront/core';
 import { SearchData, SearchParams } from '../types';
 import { buildPriceFacet } from './price';
+import { buildVendorFacet } from './vendor';
 
 const factoryParams = {
   search: async (context: Context, params: FacetSearchResult<SearchData>): Promise<SearchData> => {
     const searchParams = params.input as SearchParams;
-    const vendor = searchParams.vendorSlug !== null ? await context.$spree.api.getVendor({ vendorSlug: searchParams.vendorSlug }) : null;
+    console.log();
+    let vendorId;
+    let vendor;
+    if (searchParams.isVendorPage) {
+      vendor = searchParams.vendorSlug != null ? await context.$spree.api.getVendor({vendorSlug: searchParams.vendorSlug}) : null;
+      vendorId = vendor?.currentVendor.id;
+    } else {
+      vendor = null;
+      vendorId = searchParams.vendorSlug ? [...searchParams.vendorSlug].join(',') : null;
+    }
     const categories = await context.$spree.api.getCategory({ categorySlug: searchParams.categorySlug, vendorId: vendor?.currentVendor?.id });
     const getProductsParams: GetProductsParams = {
       categoryId: categories.current?.id,
-      vendorId: vendor?.currentVendor?.id,
+      vendorId: vendorId,
       term: searchParams.term,
       optionTypeFilters: searchParams.selectedOptionTypeFilters,
       productPropertyFilters: searchParams.selectedProductPropertyFilters,
@@ -24,6 +34,10 @@ const factoryParams = {
 
     const priceFacet = buildPriceFacet(searchParams.priceFilter);
     const facets = [...productsMeta.facets, priceFacet];
+    if (!searchParams.isVendorPage) {
+      const vendorFacet = await buildVendorFacet(context, searchParams.vendorSlug);
+      facets.push(vendorFacet);
+    }
 
     return {
       categories,

@@ -3,6 +3,8 @@ import { makeClient } from '@spree/storefront-api-v2-sdk';
 import getProduct from './api/getProduct';
 import getProducts from './api/getProducts';
 import getCategory from './api/getCategory';
+import getVendor from './api/getVendor';
+import getVendors from './api/getVendors';
 import logIn from './api/logIn';
 import logOut from './api/logOut';
 import getCurrentUser from './api/getCurrentUser';
@@ -47,7 +49,8 @@ const defaultSettings = {
   spreeFeatures: {
     associateGuestCart: true,
     fetchPrimaryVariant: true,
-    useFullImageUrls: false
+    useFullImageUrls: false,
+    vendoMarketplace: false
   }
 };
 
@@ -83,6 +86,8 @@ const { createApiClient } = apiClientFactory<any, any>({
     getProduct,
     getProducts,
     getCategory,
+    getVendor,
+    getVendors,
     getCurrentUser,
     logIn,
     logOut,

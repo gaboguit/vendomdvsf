@@ -48,11 +48,21 @@ const useUiHelpers = () => {
   const instance = getInstance();
   const { query, path } = instance.$router.history.current;
 
-  const getFacetsFromURL = (): SearchParams => {
-    const categorySlug = path.substring(3);
-
+  const getFacetsFromURL = (isVendorPage = false): SearchParams => {
+    let categorySlug;
+    let vendorSlug;
+    const slugs = path.split('/');
+    if (isVendorPage) {
+      categorySlug = slugs.slice(3).join('/');
+      vendorSlug = slugs[2];
+    } else {
+      categorySlug = slugs.slice(2).join('/');
+      vendorSlug = query.vendor !== undefined && query.vendor.length > 0 ? query.vendor : null;
+    }
     return {
       categorySlug,
+      vendorSlug,
+      isVendorPage,
       selectedOptionTypeFilters: getOptionTypeFiltersFromURL(),
       selectedProductPropertyFilters: getProductPropertyFiltersFromURL(),
       priceFilter: Array.isArray(query.price) ? query.price[0] : query.price,
@@ -63,8 +73,8 @@ const useUiHelpers = () => {
     };
   };
 
-  const getCatLink = (category: Category): string => {
-    return `/c/${category.slug}`;
+  const getCatLink = (category: Category, vendorSlug: string = null): string => {
+    return vendorSlug === null ? `/c/${category.slug}` : `/vendor/${vendorSlug}/${category.slug}`;
   };
 
   const changeSorting = (sort: string) => {

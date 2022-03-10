@@ -11,13 +11,18 @@ export default async function getProduct({ client, config }: ApiContext, { slug 
   } else {
     include = 'default_variant,variants.option_values,option_types,product_properties,taxons,taxons.parent,images';
   }
+  let productFields = 'name,slug,sku,description,primary_variant,default_variant,variants,option_types,product_properties,taxons';
+  if (config.spreeFeatures.vendoMarketplace) {
+    include += ',vendor';
+    productFields += ',vendor';
+  }
 
   const result = await client.products.show(
     slug,
     undefined,
     {
       fields: {
-        product: 'name,slug,sku,description,primary_variant,default_variant,variants,option_types,product_properties,taxons',
+        product: productFields,
         variant: 'sku,price,display_price,in_stock,product,images,option_values,is_master'
       },
       include,

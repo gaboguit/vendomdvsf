@@ -18,3 +18,7 @@ export const extractRelationships = (
 
   return filterAttachments(attachments, documentType, relationships.map((relationship) => relationship.id));
 };
+
+export const findAttachment = (attachments: JsonApiDocument[], type: string, id: string): JsonApiDocument =>
+  attachments.find(attachment => attachment.type === type && attachment.id === id);
+

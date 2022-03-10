@@ -1,8 +1,8 @@
 import type { JsonApiDocument, JsonApiResponse } from '@spree/storefront-api-v2-sdk/types/interfaces/JsonApi';
 import type { IProduct, IProducts } from '@spree/storefront-api-v2-sdk/types/interfaces/Product';
 import type { RelationType } from '@spree/storefront-api-v2-sdk/types/interfaces/Relationships';
-import type { ApiConfig, ProductVariant, OptionType, OptionValue, Image } from '../../types';
-import { extractRelationships, filterAttachments } from './common';
+import type { ApiConfig, ProductVariant, OptionType, OptionValue, Image, Vendor } from '../../types';
+import { extractRelationships, filterAttachments, findAttachment } from './common';
 
 const groupIncluded = <Groups extends keyof any>(included, discriminators): { [key in Groups]: JsonApiDocument[] } => {
   const discriminatorsKeys = Object.keys(discriminators);
@@ -114,15 +114,31 @@ const buildBreadcrumbs = (included, product) => {
       link: `/c/${item.attributes.permalink}`
     });
   };
-
-  addTaxonToBreadcrumbs(taxons[0]);
-
+  if (taxons[0] !== undefined) {
+    addTaxonToBreadcrumbs(taxons[0]);
+  }
   breadcrumbs.push({
     text: product.attributes.name,
     link: product.attributes.slug
   });
 
   return breadcrumbs;
+};
+
+const deserializeProductVendor = (included, product): Vendor => {
+  const vendorId = product.relationships.vendor?.data.id;
+  const vendor = findAttachment(included, 'vendor', vendorId);
+  if (vendor === undefined) {
+    return null;
+  }
+  return {
+    id: vendor.id,
+    name: vendor.attributes.name,
+    slug: vendor.attributes.slug,
+    aboutUs: vendor.attributes.about_us,
+    logoUrl: vendor.attributes.logo_url,
+    coverPhotoUrl: vendor.attributes.cover_photo_url
+  };
 };
 
 const partialDeserializeProductVariant = (
@@ -145,7 +161,8 @@ const partialDeserializeProductVariant = (
     original: variant.attributes.price,
     current: variant.attributes.price
   },
-  inStock: variant.attributes.in_stock
+  inStock: variant.attributes.in_stock,
+  vendor: deserializeProductVendor(attachments, product)
 });
 
 export const deserializeSingleProductVariants = (apiProduct: IProduct): ProductVariant[] => {
@@ -210,7 +227,6 @@ export const deserializeLimitedVariants = (apiProducts: IProducts): ProductVaria
     } else {
       variant = [...groupedVariants.optionVariants, ...groupedVariants.primaryVariants][0];
     }
-
     return {
       ...partialDeserializeProductVariant(
         product,

@@ -8,8 +8,8 @@
       <LazyHydrate when-idle>
         <SfGallery :images="productGallery" class="product__gallery" />
       </LazyHydrate>
-
       <div class="product__info">
+        <VendorInfo v-if="product && product.vendor" :vendor="product.vendor" ></VendorInfo>
         <div class="product__header">
           <SfHeading
             :title="productGetters.getName(product)"
@@ -179,8 +179,9 @@ import {
 
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
+import VendorInfo from '~/components/Vendor/VendorInfo.vue';
 import { ref, computed, useRoute, useRouter } from '@nuxtjs/composition-api';
-import { useProduct, useCart, productGetters, useReview, reviewGetters } from '@vue-storefront/spree';
+import { useProduct, useCart, productGetters, useReview, vendorGetters, reviewGetters } from '@vue-storefront/spree';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import cacheControl from './../helpers/cacheControl';
@@ -245,6 +246,7 @@ export default {
       addItem,
       loading,
       productGetters,
+      vendorGetters,
       productGallery,
       optionTypes,
       properties,
@@ -271,7 +273,8 @@ export default {
     SfButton,
     InstagramFeed,
     RelatedProducts,
-    LazyHydrate
+    LazyHydrate,
+    VendorInfo
   },
   data() {
     return {

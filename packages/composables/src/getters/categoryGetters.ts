@@ -8,7 +8,7 @@ export const getCategoryTree = (categories: any): AgnosticCategoryTree => {
     label: category.name,
     slug: category.slug,
     items: category.items.map(itemToTree),
-    isCurrent: category.id === current.id
+    isCurrent: category?.id === current?.id
   });
 
   return itemToTree(root);
@@ -16,17 +16,15 @@ export const getCategoryTree = (categories: any): AgnosticCategoryTree => {
 
 export const getCategoryBreadcrumbs = (category: Category): AgnosticBreadcrumb[] => {
   const breadcrumbs = [{ text: 'Home', link: '/' }];
-
   const buildBreadcrumbs = (category) => {
-    if (category.parent) buildBreadcrumbs(category.parent);
+    if (category?.parent) buildBreadcrumbs(category.parent);
 
     breadcrumbs.push({
-      text: category.name,
-      link: `/c/${category.slug}`
+      text: category?.name,
+      link: `/c/${category?.slug}`
     });
   };
   buildBreadcrumbs(category);
-
   return breadcrumbs;
 };
 

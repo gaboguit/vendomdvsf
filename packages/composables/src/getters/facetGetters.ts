@@ -8,7 +8,7 @@ import type {
   AgnosticFacet,
   FacetSearchResult
 } from '@vue-storefront/core';
-import type { ProductVariant, SearchData } from '../types';
+import type { ProductVariant, SearchData, Vendor } from '../types';
 import {
   getCategoryTree as buildCategoryTree,
   getCategoryBreadcrumbs as buildBreadcrumbs
@@ -46,6 +46,10 @@ const getProducts = (searchData: FacetSearchResult<SearchData>): ProductVariant[
   return (searchData && searchData.data) ? searchData.data.products : [];
 };
 
+const getVendor = (searchData: FacetSearchResult<SearchData>): Vendor => {
+  return (searchData && searchData.data) ? searchData.data.vendor : null;
+};
+
 const getPagination = (searchData: FacetSearchResult<SearchData>): AgnosticPagination => searchData.data ? ({
   currentPage: searchData.input.page,
   totalPages: searchData.data.productsMeta.totalPages,
@@ -63,6 +67,7 @@ const facetGetters: FacetsGetters<any, any> = {
   getGrouped,
   getAll,
   getProducts,
+  getVendor,
   getCategoryTree,
   getBreadcrumbs,
   getPagination

@@ -1,9 +1,19 @@
 <template>
   <div class="vendor__div">
-    <label class="vendor__label" >
+    <label class="vendor__label">
       <a :href="localePath(vendorGetters.getUrl(vendor))" class="vendor__href">
-        <img :src="vendorGetters.getLogoUrl(vendor)" title="Vendor logo" class="vendor__logo">
-        <h3 class = "vendor__name">{{ vendorGetters.getName(vendor) }}</h3>
+        <img
+          v-if="vendorGetters.getLogoUrl(vendor)"
+          :src="vendorGetters.getLogoUrl(vendor)"
+          :alt="vendorGetters.getName(vendor)"
+          class="vendor__logo"
+        >
+        <h3
+          v-else
+          class="vendor__name"
+        >
+          {{ vendorGetters.getName(vendor) }}
+        </h3>
       </a>
     </label>
   </div>
@@ -24,19 +34,19 @@ export default {
 
 <style lang="scss" scoped>
 $vendor-height: 30px;
+
 .vendor__div {
   text-align: right;
 }
 .vendor__href {
   display: inline-flex;
+  align-items: center;
 }
 .vendor__logo {
-  width: $vendor-height;
-  height: $vendor-height;
+  max-height: $vendor-height;
   padding-left: var(--spacer-xs);
 }
 .vendor__name {
-  height: $vendor-height;
   display: flex;
   align-items: center;
   padding: var(--spacer-xs);
@@ -46,6 +56,6 @@ $vendor-height: 30px;
   padding: var(--spacer-xs);
   box-sizing: border-box;
   display: inline-flex;
-  background: lightgray;
+  background: var(--c-light);
 }
 </style>

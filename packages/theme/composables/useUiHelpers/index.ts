@@ -57,7 +57,7 @@ const useUiHelpers = () => {
       vendorSlug = slugs[2];
     } else {
       categorySlug = slugs.slice(2).join('/');
-      vendorSlug = query.vendor != null && query.vendor.length > 0 ? query.vendor : null;
+      vendorSlug = query.vendor !== undefined && query.vendor.length > 0 ? query.vendor : null;
     }
     return {
       categorySlug,
@@ -74,7 +74,7 @@ const useUiHelpers = () => {
   };
 
   const getCatLink = (category: Category, vendorSlug: string = null): string => {
-    return vendorSlug === null ? `/c/${category.slug}` : `/vendor/${vendorSlug}/${category.slug}`;
+    return vendorSlug === undefined ? `/c/${category.slug}` : `/vendor/${vendorSlug}/${category.slug}`;
   };
 
   const changeSorting = (sort: string) => {

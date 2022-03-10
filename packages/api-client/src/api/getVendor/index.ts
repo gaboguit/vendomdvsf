@@ -1,5 +1,5 @@
-import {ApiContext, GetVendorParams, Vendor} from '../../types';
-import {deserializeVendor} from '../serializers/vendor';
+import { ApiContext, GetVendorParams, Vendor } from '../../types';
+import { deserializeVendor } from '../serializers/vendor';
 import axios from 'axios';
 
 export default async function getVendor({ config }: ApiContext, { vendorSlug }: GetVendorParams):Promise<Vendor> {

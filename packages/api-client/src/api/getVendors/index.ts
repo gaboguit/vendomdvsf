@@ -1,4 +1,4 @@
-import {ApiContext, Vendor} from '../../types';
+import { ApiContext, Vendor } from '../../types';
 import { deserializeVendor } from '../serializers/vendor';
 import axios from 'axios';
 

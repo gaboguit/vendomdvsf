@@ -1,5 +1,5 @@
 import { AgnosticBreadcrumb, AgnosticGroupedFacet } from '@vue-storefront/core';
-import {Vendor} from './vendor';
+import { Vendor } from './vendor';
 
 export type OptionValue = {
   id: string;

@@ -10,7 +10,7 @@ const factoryParams = {
     let vendorId;
     let vendor;
     if (searchParams.isVendorPage) {
-      vendor = searchParams.vendorSlug != null ? await context.$spree.api.getVendor({vendorSlug: searchParams.vendorSlug}) : null;
+      vendor = searchParams.vendorSlug !== null ? await context.$spree.api.getVendor({vendorSlug: searchParams.vendorSlug}) : null;
       vendorId = vendor?.id;
     } else {
       vendor = null;

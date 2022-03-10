@@ -102,7 +102,7 @@ const deserializeOptionValues = (included, variant): OptionValue[] => {
 
 const buildBreadcrumbs = (included, product) => {
   const taxons = extractRelationships(included, 'taxon', 'taxons', product);
-  const breadcrumbs = [{text: 'Home', link: '/'}];
+  const breadcrumbs = [{ text: 'Home', link: '/' }];
 
   const addTaxonToBreadcrumbs = (item) => {
     const parentId = item.relationships.parent?.data?.id;
@@ -128,7 +128,7 @@ const buildBreadcrumbs = (included, product) => {
 const deserializeProductVendor = (included, product): Vendor => {
   const vendorId = product.relationships.vendor?.data.id;
   const vendor = findAttachment(included, 'vendor', vendorId);
-  if (vendor === null) {
+  if (vendor === undefined) {
     return null;
   }
   return {

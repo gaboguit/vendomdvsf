@@ -25,12 +25,10 @@ const buildVendorOptions = (vendorList: Vendor[], currentVendorIds: string[]): A
 };
 
 export const buildVendorFacet = async (context: Context, currentVendorIds: string[]): Promise<AgnosticGroupedFacet> => {
-  console.log('najpierw tu');
-  const vendorRanges2 = await vendorRanges(context);
-  console.log('tera tu');
+  const vendors = await vendorRanges(context);
   return {
     id: 'vendor',
     label: 'Vendor',
-    options: buildVendorOptions(vendorRanges2, currentVendorIds)
+    options: buildVendorOptions(vendors, currentVendorIds)
   };
 };

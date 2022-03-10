@@ -10,7 +10,3 @@ export type Vendor = {
 export type GetVendorParams = {
     vendorSlug: any;
 };
-
-export type VendorSearchResult = {
-    currentVendor: Vendor;
-}

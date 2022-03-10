@@ -46,6 +46,8 @@ const getProductPropertyFiltersFromURL = (): SearchParamsProductPropertyFilter[]
 
 const useUiHelpers = () => {
   const instance = getInstance();
+  console.log('Instance');
+  console.log(getCurrentInstance());
   const { query, path } = instance.$router.history.current;
 
   const getFacetsFromURL = (isVendorPage = false): SearchParams => {

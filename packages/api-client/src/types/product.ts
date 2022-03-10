@@ -67,4 +67,5 @@ export type ProductSearchMetadata = {
 export type ProductSearchResult = {
   data: ProductVariant[];
   meta: ProductSearchMetadata;
+  vendoMarketplace: boolean;
 }

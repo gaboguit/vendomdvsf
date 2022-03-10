@@ -2,15 +2,15 @@
   <div id="category">
     <div class="row">
       <div class="column sf--column" style="height:200px">
-        <img :src="vendor.currentVendor.coverPhotoUrl" style="width: 100%; height: 100%">
+        <img :src="vendor.coverPhotoUrl" style="width: 100%; height: 100%">
       </div>
       <div class="column sf--column" style="height:200px">
         <SfHeading
-                   :title="vendor.currentVendor.name"
+                   :title="vendor.name"
                    :level="1"
                    class="sf-heading--no-underline sf-heading--left"
         />
-        <p v-text="vendor.currentVendor.aboutUs"></p>
+        <p v-html="vendor.aboutUs"></p>
       </div>
     </div>
     <div class="navbar section">
@@ -50,7 +50,7 @@
                       >
                         <template #label>
                           <nuxt-link
-                            :to="localePath(th.getCatLink(cat, vendor.currentVendor.slug))"
+                            :to="localePath(th.getCatLink(cat, vendor.slug))"
                             :class="cat.isCurrent ? 'sidebar--cat-selected' : ''"
                           >
                             All
@@ -69,7 +69,7 @@
                       >
                         <template #label="{ label }">
                           <nuxt-link
-                            :to="localePath(th.getCatLink(subCat, vendor.currentVendor.slug))"
+                            :to="localePath(th.getCatLink(subCat, vendor.slug))"
                             :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''"
                           >
                             {{ label }}
@@ -224,6 +224,7 @@ import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import CategoryPageHeader from '~/components/CategoryPageHeader';
+import VendorInfo from '../components/Vendor/VendorInfo';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
@@ -273,6 +274,7 @@ export default {
     };
   },
   components: {
+    VendorInfo,
     CategoryPageHeader,
     SfButton,
     SfSidebar,

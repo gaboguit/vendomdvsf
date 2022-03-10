@@ -1,4 +1,4 @@
-import type { VendorSearchResult, CategorySearchResult, LineItem, ProductVariant, Order, Country, State } from '@vue-storefront/spree-api';
+import type { Vendor, CategorySearchResult, LineItem, ProductVariant, Order, Country, State } from '@vue-storefront/spree-api';
 import type { AgnosticGroupedFacet, ComputedProperty } from '@vue-storefront/core';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';
@@ -81,7 +81,7 @@ export type SearchParams = {
 
 export type SearchData = {
   categories: CategorySearchResult;
-  vendor: VendorSearchResult;
+  vendor: Vendor;
   products: ProductVariant[],
   productsMeta: {
     totalPages: number;

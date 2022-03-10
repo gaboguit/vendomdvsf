@@ -51,7 +51,8 @@ export default async function getProducts({ client, config }: ApiContext, params
 
       return {
         data: deserializeLimitedVariants(productsData),
-        meta: deserializeSearchMetadata(data.meta, optionTypeFilters, productPropertyFilters)
+        meta: deserializeSearchMetadata(data.meta, optionTypeFilters, productPropertyFilters),
+        vendoMarketplace: config.spreeFeatures.vendoMarketplace
       };
     } else {
       throw result.fail();

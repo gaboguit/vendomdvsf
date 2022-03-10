@@ -16,7 +16,7 @@ const factoryParams = {
       vendor = null;
       vendorId = searchParams.vendorSlug ? [...searchParams.vendorSlug].join(',') : null;
     }
-    const categories = await context.$spree.api.getCategory({ categorySlug: searchParams.categorySlug, vendorId: vendor?.currentVendor?.id });
+    const categories = await context.$spree.api.getCategory({ categorySlug: searchParams.categorySlug, vendorId: vendor?.id });
     const getProductsParams: GetProductsParams = {
       categoryId: categories.current?.id,
       vendorId: vendorId,
@@ -29,11 +29,11 @@ const factoryParams = {
       sort: searchParams.sort
     };
     const productsResponse = await context.$spree.api.getProducts(getProductsParams);
-    const { data: products, meta: productsMeta } = productsResponse;
+    const { data: products, meta: productsMeta, vendoMarketplace: vendoMarketplace } = productsResponse;
 
     const priceFacet = buildPriceFacet(searchParams.priceFilter);
     const facets = [...productsMeta.facets, priceFacet];
-    if (!searchParams.isVendorPage) {
+    if (!searchParams.isVendorPage && vendoMarketplace) {
       const vendorFacet = await buildVendorFacet(context, searchParams.vendorSlug);
       facets.push(vendorFacet);
     }

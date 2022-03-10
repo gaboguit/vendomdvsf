@@ -34,7 +34,7 @@ export default async function getProduct({ client, config }: ApiContext, { slug 
     try {
       const data = result.success();
       const productsData = addHostToProductImages(data, config);
-      const deserializedVariants = deserializeSingleProductVariants(productsData, config.spreeFeatures.vendoMarketplace);
+      const deserializedVariants = deserializeSingleProductVariants(productsData);
       return deserializedVariants;
     } catch (e) {
       console.log(e);

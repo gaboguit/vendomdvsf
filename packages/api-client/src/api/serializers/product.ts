@@ -125,7 +125,7 @@ const buildBreadcrumbs = (included, product) => {
   return breadcrumbs;
 };
 
-const deserializeVendor = (included, product): Vendor => {
+const deserializeProductVendor = (included, product): Vendor => {
   const vendorId = product.relationships.vendor?.data.id;
   const vendor = findAttachment(included, 'vendor', vendorId);
   if (vendor === null) {
@@ -142,7 +142,7 @@ const deserializeVendor = (included, product): Vendor => {
 };
 
 const partialDeserializeProductVariant = (
-  vendoMarketplace = false, product, variant, attachments: JsonApiDocument[]
+  product, variant, attachments: JsonApiDocument[]
 ): Omit<ProductVariant, 'images'> => ({
   _id: variant.id,
   _productId: product.id,
@@ -162,10 +162,10 @@ const partialDeserializeProductVariant = (
     current: variant.attributes.price
   },
   inStock: variant.attributes.in_stock,
-  vendor: vendoMarketplace ? deserializeVendor(attachments, product) : null
+  vendor: deserializeProductVendor(attachments, product)
 });
 
-export const deserializeSingleProductVariants = (apiProduct: IProduct, vendoMarketplace: boolean): ProductVariant[] => {
+export const deserializeSingleProductVariants = (apiProduct: IProduct): ProductVariant[] => {
   const attachments = apiProduct.included;
   const productId = apiProduct.data.id;
   // primary_variant may not exist if na older version of Spree is used. Only use primary_variant if available.
@@ -183,7 +183,7 @@ export const deserializeSingleProductVariants = (apiProduct: IProduct, vendoMark
     const images = deserializeImages(attachments, groupedVariants.primaryVariants);
 
     return [{
-      ...partialDeserializeProductVariant(vendoMarketplace, apiProduct.data, groupedVariants.primaryVariants[0], attachments),
+      ...partialDeserializeProductVariant(apiProduct.data, groupedVariants.primaryVariants[0], attachments),
       images
     }];
   }
@@ -193,14 +193,14 @@ export const deserializeSingleProductVariants = (apiProduct: IProduct, vendoMark
       const images = deserializeImages(attachments, [...groupedVariants.primaryVariants, variant]);
 
       return {
-        ...partialDeserializeProductVariant(vendoMarketplace, apiProduct.data, variant, attachments),
+        ...partialDeserializeProductVariant(apiProduct.data, variant, attachments),
         images
       };
     }
   );
 };
 
-export const deserializeLimitedVariants = (apiProducts: IProducts, vendoMarketplace: boolean): ProductVariant[] => {
+export const deserializeLimitedVariants = (apiProducts: IProducts): ProductVariant[] => {
   const attachments = apiProducts.included;
 
   return apiProducts.data.map((product) => {
@@ -229,7 +229,6 @@ export const deserializeLimitedVariants = (apiProducts: IProducts, vendoMarketpl
     }
     return {
       ...partialDeserializeProductVariant(
-        vendoMarketplace,
         product,
         variant,
         attachments

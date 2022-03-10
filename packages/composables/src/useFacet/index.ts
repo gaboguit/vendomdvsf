@@ -7,12 +7,11 @@ import { buildVendorFacet } from './vendor';
 const factoryParams = {
   search: async (context: Context, params: FacetSearchResult<SearchData>): Promise<SearchData> => {
     const searchParams = params.input as SearchParams;
-    console.log();
     let vendorId;
     let vendor;
     if (searchParams.isVendorPage) {
       vendor = searchParams.vendorSlug != null ? await context.$spree.api.getVendor({vendorSlug: searchParams.vendorSlug}) : null;
-      vendorId = vendor?.currentVendor.id;
+      vendorId = vendor?.id;
     } else {
       vendor = null;
       vendorId = searchParams.vendorSlug ? [...searchParams.vendorSlug].join(',') : null;

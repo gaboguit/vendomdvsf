@@ -1,17 +1,14 @@
-import { ApiContext, GetVendorParams, VendorSearchResult } from '../../types';
-import { deserializeVendor } from '../serializers/vendor';
+import {ApiContext, GetVendorParams, Vendor} from '../../types';
+import {deserializeVendor} from '../serializers/vendor';
 import axios from 'axios';
 
-export default async function getVendor({ config }: ApiContext, { vendorSlug }: GetVendorParams): Promise<VendorSearchResult> {
+export default async function getVendor({ config }: ApiContext, { vendorSlug }: GetVendorParams):Promise<Vendor> {
   const response = await axios.get(
     `${config.backendUrl}/api/v2/storefront/vendors/${vendorSlug}`
   );
   try {
     const responseData = response.data;
-    const currentVendor = deserializeVendor(responseData.data);
-    return {
-      currentVendor: currentVendor
-    };
+    return deserializeVendor(responseData.data);
   } catch (e) {
     console.log(e);
     throw e;

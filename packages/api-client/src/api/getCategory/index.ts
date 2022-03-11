@@ -13,15 +13,17 @@ export default async function getCategory({ client }: ApiContext, { categorySlug
       if (vendorId) {
         data.forEach((element,index) => {
           element.relationships.parent.data['id'] = rootResultData.id;
-          element.relationships.parent.data['type'] = 'taxon';
-          element.relationships.children.data = [];
+          let children = rootResultData.relationships.children.data;
+          if (Array.isArray(children)) {
+            children.push({id: element.id, type: 'taxon'});
+          } else {
+            children = [children, {id: element.id, type: 'taxon'}];
+          }
+          rootResultData.relationships.children.data = children;
+
         });
-        data.push(rootResult.success().data);
+        data.push(rootResultData);
       }
-      data.forEach((element,index) => {
-        console.log('Element relationships');
-        console.log(element.relationships.children.data);
-      });
       const categories = deserializeCategories(data);
       return {
         root: findCategory(categories, 'categories'),

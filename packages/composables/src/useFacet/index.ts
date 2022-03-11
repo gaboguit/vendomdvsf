@@ -14,7 +14,7 @@ const factoryParams = {
       vendorId = vendor?.id;
     } else {
       vendor = null;
-      vendorId = searchParams.vendorSlug ? [...searchParams.vendorSlug].join(',') : null;
+      vendorId = searchParams.vendorSlug && Array.isArray(searchParams.vendorSlug) ? [...searchParams.vendorSlug].join(',') : searchParams.vendorSlug;
     }
     const categories = await context.$spree.api.getCategory({ categorySlug: searchParams.categorySlug, vendorId: vendor?.id });
     const getProductsParams: GetProductsParams = {

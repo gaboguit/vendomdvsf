@@ -2,7 +2,7 @@
   <div id="category">
     <div class="row">
       <div class="column sf--column" style="height:200px" v-if="vendor.coverPhotoUrl">
-        <img :src="vendor.coverPhotoUrl" style="width: 100%; height: 100%">
+        <img :src="vendor.coverPhotoUrl" style="width: 100%; height: 100%; object-fit: cover">
       </div>
       <div class="column sf--column" style="height:200px">
         <SfHeading

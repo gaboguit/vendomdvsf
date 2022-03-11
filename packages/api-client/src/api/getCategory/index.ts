@@ -1,6 +1,6 @@
 import { ApiContext, Category, CategorySearchResult, GetCategoryParams } from '../../types';
 import { deserializeCategories } from '../serializers/category';
-import {TaxonAttr} from '@spree/storefront-api-v2-sdk/types/interfaces/Taxon';
+import { TaxonAttr } from '@spree/storefront-api-v2-sdk/types/interfaces/Taxon';
 
 const findCategory = (categories: Category[], slug: string) => categories.find(e => e.slug === slug);
 

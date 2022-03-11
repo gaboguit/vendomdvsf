@@ -11,7 +11,7 @@ export default async function getCategory({ client }: ApiContext, { categorySlug
       const data = result.success().data;
       const rootResultData = rootResult.success().data;
       if (vendorId) {
-        data.forEach((element) => {
+        data.forEach((element,index) => {
           element.relationships.parent.data['id'] = rootResultData.id;
           let children = rootResultData.relationships.children.data;
           if (Array.isArray(children)) {

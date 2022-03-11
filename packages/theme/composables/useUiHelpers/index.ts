@@ -57,7 +57,7 @@ const useUiHelpers = () => {
       vendorSlug = slugs[2];
     } else {
       categorySlug = slugs.slice(2).join('/');
-      vendorSlug = query.vendor !== undefined && query.vendor.length > 0 ? query.vendor : null;
+      vendorSlug = query.vendor && query.vendor.length > 0 ? query.vendor : null;
     }
     return {
       categorySlug,

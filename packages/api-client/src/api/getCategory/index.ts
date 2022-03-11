@@ -9,8 +9,19 @@ export default async function getCategory({ client }: ApiContext, { categorySlug
   if (result.isSuccess()) {
     try {
       const data = result.success().data;
-      data.push(rootResult.success().data);
-
+      const rootResultData = rootResult.success().data;
+      if (vendorId) {
+        data.forEach((element,index) => {
+          element.relationships.parent.data['id'] = rootResultData.id;
+          element.relationships.parent.data['type'] = 'taxon';
+          element.relationships.children.data = [];
+        });
+        data.push(rootResult.success().data);
+      }
+      data.forEach((element,index) => {
+        console.log('Element relationships');
+        console.log(element.relationships.children.data);
+      });
       const categories = deserializeCategories(data);
       return {
         root: findCategory(categories, 'categories'),

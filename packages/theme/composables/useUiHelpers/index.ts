@@ -83,7 +83,7 @@ const useUiHelpers = () => {
 
   const changeFilters = (filters) => {
     const queryWithoutFilters = Object.fromEntries(
-      Object.entries(query).filter(([key]) => !key.startsWith('o.') && !key.startsWith('p.') && key !== 'price')
+      Object.entries(query).filter(([key]) => !key.startsWith('o.') && !key.startsWith('p.') && key !== 'price' && key !== 'vendor')
     );
     instance.$router.push({ query: { ...queryWithoutFilters, ...filters }});
   };

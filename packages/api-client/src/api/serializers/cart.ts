@@ -4,6 +4,7 @@ import { CouponCode as CouponCodeAttr } from '@spree/storefront-api-v2-sdk/types
 import { Cart, LineItem, ApiConfig } from '../../types';
 
 import { deserializeAddress } from './address';
+import {filterAttachments} from "./common";
 
 const findAttachment = (attachments: any[], id: string, type: string) => {
   return attachments.find(e => e.id === id && e.type === type);
@@ -59,8 +60,9 @@ const deserializeLineItem = (lineItem: any, attachments: JsonApiDocument[], conf
   };
 };
 
-const filterIncludedLineItems = (included: any[]) => {
-  return included.filter(e => e.type === 'line_item');
+const filterIncludedLineItems = (included: any[], apiCart) => {
+  const cartItemIds = apiCart.relationships.line_items.data.map(l => l.id);
+  return included.filter(e => e.type === 'line_item' && cartItemIds.includes(e.id));
 };
 
 const findAddress = (data, included) => {
@@ -89,7 +91,7 @@ export const deserializeCart = (apiCart: OrderAttr, included: any[], config: any
   shipTotalAmount: parseFloat(apiCart.attributes.ship_total),
   taxTotalAmount: parseFloat(apiCart.attributes.tax_total),
   adjustmentTotal: apiCart.attributes.display_adjustment_total,
-  lineItems: filterIncludedLineItems(included).map(item => deserializeLineItem(item, included, config)),
+  lineItems: filterIncludedLineItems(included, apiCart).map(item => deserializeLineItem(item, included, config)),
   itemCount: apiCart.attributes.item_count,
   address: findAddress(apiCart, included),
   completedAt: apiCart.attributes.completed_at,

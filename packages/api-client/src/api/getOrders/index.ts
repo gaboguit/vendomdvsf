@@ -11,7 +11,8 @@ export default async function getOrders({ client, config }: ApiContext): Promise
 
     if (response.isSuccess()) {
       const payload = response.success();
-      return payload.data.map(order => deserializeCart(order, payload.included, config));
+      const deserializedPayload = payload.data.map(order => deserializeCart(order, payload.included, config));
+      return deserializedPayload.filter(order => order.state !== 'splitted');
     } else {
       throw response.fail();
     }

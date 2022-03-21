@@ -1,16 +1,16 @@
 <template>
   <div id="category">
     <div class="row">
-      <div class="column sf--column" style="height:200px" v-if="vendor.coverPhotoUrl">
-        <img :src="vendor.coverPhotoUrl" style="width: 100%; height: 100%; object-fit: cover">
+      <div class="column sf--column" v-if="vendor.coverPhotoUrl">
+        <img :src="vendor.coverPhotoUrl" style="width: 100%; height: 200px; object-fit: cover">
       </div>
-      <div class="column sf--column" style="height:200px">
+      <div class="column sf--column" >
         <SfHeading
                    :title="vendor.name"
                    :level="1"
                    class="sf-heading--no-underline sf-heading--left"
         />
-        <p v-html="vendor.aboutUs"></p>
+        <div v-html="vendor.aboutUs"/>
       </div>
     </div>
     <div class="navbar section">

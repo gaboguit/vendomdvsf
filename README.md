@@ -22,7 +22,7 @@ This integration is being developed and maintained by [Upside](https://upsidelab
 
 ## Deploy in the cloud
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vendo-dev/vuestorefront)
 
 ## Getting Started
 

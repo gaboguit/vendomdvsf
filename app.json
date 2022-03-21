@@ -7,8 +7,7 @@
   "website": "https://www.getvendo.com",
   "env": {
     "BACKEND_URL": {
-      "description": "Vendo backend url",
-      "value": "https://vue-marketplace.vendo.dev/"
+      "description": "Vendo backend url"
     }
   },
   "buildpacks": [

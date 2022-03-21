@@ -1,0 +1,13 @@
+{
+  "name": "Vendo Vuestorefront Starter",
+  "description": "A Vendo Vuestorefront starter integration for development purposes",
+  "repository": "https://github.com/vendo-dev/vuestorefront",
+  "logo": "https://vendo-cdn.dev/assets/vendo-icon-75d08c5f8a45f9e92cffdc585df4c617ccb5ec4e72b64ba01d694c10e4159b55.png",
+  "keywords": ["vendo", "storefront","commerce","ecommerce", "spree", "spree commerce"],
+  "env": {
+    "BACKEND_URL": {
+      "description": "Vendo backend url",
+      "value": "https://vue-marketplace.vendo.dev/"
+    }
+  }
+}

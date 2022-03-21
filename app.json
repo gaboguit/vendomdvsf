@@ -9,5 +9,13 @@
       "description": "Vendo backend url",
       "value": "https://vue-marketplace.vendo.dev/"
     }
-  }
+  },
+  "scripts": {
+    "postdeploy": "yarn build && yarn dev"
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
 }

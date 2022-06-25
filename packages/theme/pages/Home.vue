@@ -86,7 +86,7 @@
             data-testid="cta-button"
             @click="toggleNewsletterModal"
           >
-            {{ $t('Subscribe') }}
+            {{ $t('Subscribe here') }}
           </SfButton>
         </template>
       </SfCallToAction>
